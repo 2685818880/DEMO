@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+            <s:element name="WXZDTrayOut">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="RecvData" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="WXZDTrayOutResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="WXZDTrayOutResult" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:schema>
+    </wsdl:types>
+    <wsdl:message name="WXZDTrayOutSoapIn">
+        <wsdl:part name="parameters" element="tns:WXZDTrayOut"/>
+    </wsdl:message>
+    <wsdl:message name="WXZDTrayOutSoapOut">
+        <wsdl:part name="parameters" element="tns:WXZDTrayOutResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="Web_WCSServiceSoap">
+        <wsdl:operation name="WXZDTrayOut">
+            <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">托盘出库</wsdl:documentation>
+            <wsdl:input message="tns:WXZDTrayOutSoapIn"/>
+            <wsdl:output message="tns:WXZDTrayOutSoapOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="Web_WCSServiceSoap" type="tns:Web_WCSServiceSoap">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="WXZDTrayOut">
+            <soap:operation soapAction="http://tempuri.org/WXZDTrayOut" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="Web_WCSServiceSoap12" type="tns:Web_WCSServiceSoap">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="WXZDTrayOut">
+            <soap12:operation soapAction="http://tempuri.org/WXZDTrayOut" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="Web_WCSService">
+        <wsdl:port name="Web_WCSServiceSoap" binding="tns:Web_WCSServiceSoap">
+            <soap:address location="http://10.227.45.146:8098/Web_WCSService.asmx"/>
+        </wsdl:port>
+        <wsdl:port name="Web_WCSServiceSoap12" binding="tns:Web_WCSServiceSoap12">
+            <soap12:address location="http://10.227.45.146:8098/Web_WCSService.asmx"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

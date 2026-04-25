@@ -1,0 +1,92 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  servlet:
+    multipart:
+      max-file-size: 500000000
+      max-request-size: 500000000
+  profiles:
+#    active: dev
+  redis:
+    host: 127.0.0.1
+    port: 6379
+#    password: 123456
+    database: 0
+  elasticsearch:
+    rest:
+      connection-timeout: PT5S
+      read-timeout: PT30S
+      uris:
+      - http://localhost:9200
+      username: elastic
+      password: 123456
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: 123456
+  freemarker:
+    suffix: .ftl
+    template-loader-path: classpath:/view/
+    cache: false
+  thymeleaf:
+    prefix: classpath:/thymeleaf/
+    cache: false
+  messages:
+    basename: i18n.login, i18n.tips, i18n.default
+    encoding: UTF-8
+    use-code-as-default-message: true
+  datasource:
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      #    url: jdbc:sqlserver://192.168.22.229:1433;databaseName=ASRS_WXZD_637;workstationID=wxzd;lockTimeout=10000;applicationName=WMS;sendStringParametersAsUnicode=false;trustServerCertificate=true;
+      #    username: sa
+      #    password: 123456
+#    url: jdbc:sqlserver://192.168.60.111:1433;databaseName=ASRS_WXZD_637;workstationID=wxzd;lockTimeout=10000;applicationName=WMS;sendStringParametersAsUnicode=false;trustServerCertificate=true;
+#    username: sa
+#    password: wxzd*123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/wms878?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    initialSize: 3
+    minIdle: 3
+    maxActive: 60
+    maxWait: 60000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: slf4j,stat
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.slowSqlMillis=5000;druid.stat.logSlowSql=true
+  flyway:
+    enabled: true
+    check-location: false
+    locations: classpath:sql/{vendor}
+    table: schema_version_${spring.application.name}
+    out-of-order: false
+    baseline-on-migrate: true
+    baseline-version: 0.0.0.0
+    validate-on-migrate: false
+    clean-disabled: true
+# AES密钥，用于API提供商密钥加解密（开发环境默认值，生产环境请更换）
+ai:
+  config:
+    secret-key: a1b2c3d4e5f60718293a4b5c6d7e8f90
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+#    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 改为控制台输出
+    jdbc-type-for-null: null
+  global-config:
+    banner: false

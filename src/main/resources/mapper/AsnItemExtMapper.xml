@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zdjc.wms.project.mapper.asn.AsnItemExtMapper">
+    <!-- AsnItemExtMapper.xml -->
+    <select id="selectWithAsnHeader" resultType="cn.zdjc.wms.project.domain.dto.asn.AsnItemExtDto">
+        SELECT item.id,
+        item.asn_id,
+        item.asn_no,
+        item.item_no,
+        item.business_item_no,
+        item.business_form_type,
+        item.category_code,
+        item.category_name,
+        item.sku_code,
+        item.sku_name,
+        item.batch_no,
+        item.factory,
+        item.inventory_area,
+        item.primary_qty,
+        item.primary_unit,
+        item.auxiliary_qty,
+        item.auxiliary_unit,
+        item.confirm_qty,
+        item.submit_qty,
+        item.plan_delivery_date,
+        item.quality_flag,
+        item.package_type,
+        asn.business_form_no
+        FROM wms_asn_item item
+        INNER JOIN wms_asn asn ON item.asn_id = asn.id
+        <where>
+            <!-- ===== 明细表条件 ===== -->
+            <if test="param.asnId != null and param.asnId != ''">
+                AND item.asn_id = #{param.asnId}
+            </if>
+            <if test="param.asnNo != null and param.asnNo != ''">
+                AND item.asn_no = #{param.asnNo}
+            </if>
+            <if test="param.skuCode != null and param.skuCode != ''">
+                AND item.sku_code = #{param.skuCode}
+            </if>
+            <if test="param.batchNo != null and param.batchNo != ''">
+                AND item.batch_no = #{param.batchNo}
+            </if>
+
+            <if test="param.businessItemNo != null and param.businessItemNo != ''">
+                AND item.business_item_no LIKE CONCAT('%', #{param.businessItemNo}, '%')
+            </if>
+
+            <if test="param.businessOrderNo != null and param.businessOrderNo != ''">
+                AND  asn.business_form_no LIKE CONCAT('%', #{param.businessOrderNo}, '%')
+            </if>
+
+            <!-- ===== 主表 asn 条件 - asn_status 支持 List ===== -->
+            <if test="param.asnStatusList != null and param.asnStatusList.size() > 0">
+                AND asn.asn_status IN
+                <foreach collection="param.asnStatusList" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+
+            <if test="param.asnStatus != null and param.asnStatus != ''">
+                AND asn.asn_status = #{param.asnStatus}
+            </if>
+            <if test="param.supplierCode != null and param.supplierCode != ''">
+                AND asn.supplier_code = #{param.supplierCode}
+            </if>
+            <if test="param.createTimeStart != null">
+                AND asn.create_datetime >= #{param.createTimeStart}
+            </if>
+            <if test="param.createTimeEnd != null">
+                AND asn.create_datetime &lt; #{param.createTimeEnd}
+            </if>
+            <!-- 可继续添加其他 asn 字段 -->
+        </where>
+        ORDER BY asn.create_datetime DESC, item.item_no
+    </select>
+</mapper>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zdjc.wms.project.mapper.requisition.RequisitionItemExtMapper">
+
+    <!-- ResultMap 定义（推荐使用） -->
+    <resultMap id="RequisitionItemExtResultMap" type="cn.zdjc.wms.project.domain.dto.requisition.RequisitionItemExtDto">
+        <!-- 基础字段映射 -->
+        <result property="id" column="id"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="businessItemNo" column="business_item_no"/>
+        <result property="formId" column="form_id"/>
+        <result property="formNo" column="form_no"/>
+        <result property="businessFormNo" column="business_form_no"/>
+        <result property="factoryCode" column="factory_code"/>
+        <result property="houseCode" column="house_code"/>
+        <result property="sourceArea" column="source_area"/>
+        <result property="targetArea" column="target_area"/>
+        <result property="categoryCode" column="category_code"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="skuCode" column="sku_code"/>
+        <result property="skuName" column="sku_name"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="qualityStatus" column="quality_status"/>
+        <result property="primaryQty" column="primary_qty"/>
+        <result property="primaryUnit" column="primary_unit"/>
+        <result property="auxiliaryQty" column="auxiliary_qty"/>
+        <result property="auxiliaryUnit" column="auxiliary_unit"/>
+        <result property="allottedQty" column="allotted_qty"/>
+        <result property="waveQty" column="wave_qty"/>
+        <result property="confirmQty" column="confirm_qty"/>
+        <result property="packageType" column="package_type"/>
+        <result property="isOverdue" column="is_overdue"/>
+        <result property="ownerCode" column="owner_code"/>
+        <result property="ownerName" column="owner_name"/>
+        <result property="customCode" column="custom_code"/>
+        <result property="customName" column="custom_name"/>
+        <result property="carrierCode" column="carrier_code"/>
+        <result property="carrierName" column="carrier_name"/>
+        <result property="addressDesc" column="address_desc"/>
+        <result property="addressId" column="address_id"/>
+        <result property="remark" column="remark"/>
+        <result property="deleteDatetime" column="delete_datetime"/>
+        <result property="deleteUser" column="delete_user"/>
+        <result property="isEnable" column="is_enable"/>
+        <result property="version" column="version"/>
+        <result property="isActive" column="is_active"/>
+        <result property="createDatetime" column="create_datetime"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastModifyDatetime" column="last_modify_datetime"/>
+        <result property="lastModifyBy" column="last_modify_by"/>
+
+        <!-- 拣选容器列表（需要单独查询或嵌套查询） -->
+        <!--
+        <collection property="pickContainers" ofType="cn.zdjc.wms.project.domain.dto.pick.PickItemExtDto">
+            ... 嵌套查询配置 ...
+        </collection>
+        -->
+    </resultMap>
+
+    <!-- 查询方法：selectWithAsnHeader -->
+    <select id="selectWithAsnHeader" resultMap="RequisitionItemExtResultMap">
+        SELECT
+        item.id,
+        item.item_no,
+        item.business_item_no,
+        item.form_id,
+        item.form_no,
+        ord.business_form_no,
+        ord.form_status,
+        item.factory_code,
+        item.house_code,
+        item.source_area,
+        item.target_area,
+        item.category_code,
+        item.category_name,
+        item.sku_code,
+        item.sku_name,
+        item.batch_no,
+        item.quality_status,
+        item.primary_qty,
+        item.primary_unit,
+        item.auxiliary_qty,
+        item.auxiliary_unit,
+        item.allotted_qty,
+        item.wave_qty,
+        item.confirm_qty,
+        item.package_type,
+        item.is_overdue,
+        item.owner_code,
+        item.owner_name,
+        item.custom_code,
+        item.custom_name,
+        item.carrier_code,
+        item.carrier_name,
+        item.address_desc,
+        item.address_id,
+        item.remark,
+        item.delete_datetime,
+        item.delete_user,
+        item.is_enable,
+        item.version,
+        item.is_active,
+        item.create_datetime,
+        item.create_by,
+        item.last_modify_datetime,
+        item.last_modify_by
+        FROM wms_requisition_item item
+        INNER JOIN wms_requisition_order ord ON item.form_id = ord.id
+        <where>
+            <!-- 明细表条件 -->
+            <if test="param.formId != null and param.formId != ''">
+                AND item.form_id = #{param.formId}
+            </if>
+            <if test="param.formNo != null and param.formNo != ''">
+                AND item.form_no = #{param.formNo}
+            </if>
+            <if test="param.skuCode != null and param.skuCode != ''">
+                AND item.sku_code = #{param.skuCode}
+            </if>
+            <if test="param.batchNo != null and param.batchNo != ''">
+                AND item.batch_no = #{param.batchNo}
+            </if>
+            <if test="param.businessItemNo != null and param.businessItemNo != ''">
+                AND item.business_item_no LIKE CONCAT('%', #{param.businessItemNo}, '%')
+            </if>
+            <if test="param.businessFormNo != null and param.businessFormNo != ''">
+                AND ord.business_form_no LIKE CONCAT('%', #{param.businessFormNo}, '%')
+            </if>
+            <if test="param.allotStatus != null and param.allotStatus != ''">
+                AND ord.allot_status  = #{param.allotStatus}
+            </if>
+            <if test="param.formStatus != null and param.formStatus != ''">
+                AND ord.form_status = #{param.formStatus}
+            </if>
+
+
+            <if test="param.formStatusList != null and param.formStatusList.size() > 0">
+                AND ord.form_status IN
+                <foreach collection="param.formStatusList" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+
+        </where>
+        ORDER BY ord.create_datetime DESC, item.item_no
+    </select>
+
+    <!-- 基础查询方法 -->
+    <select id="selectById" parameterType="java.util.UUID" resultMap="RequisitionItemExtResultMap">
+        SELECT * FROM wms_requisition_item WHERE id = #{id}
+    </select>
+
+    <select id="selectByFormId" parameterType="java.util.UUID" resultMap="RequisitionItemExtResultMap">
+        SELECT * FROM wms_requisition_item WHERE form_id = #{formId}
+    </select>
+
+    <select id="selectBySkuAndBatch" resultMap="RequisitionItemExtResultMap">
+        SELECT * FROM wms_requisition_item
+        WHERE sku_code = #{skuCode}
+          AND batch_no = #{batchNo}
+          AND is_active = true
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="RequisitionItemExtResultMap">
+        SELECT * FROM wms_requisition_item
+        <where>
+            <if test="param.formNo != null and param.formNo != ''">
+                AND form_no = #{param.formNo}
+            </if>
+            <if test="param.skuCode != null and param.skuCode != ''">
+                AND sku_code = #{param.skuCode}
+            </if>
+            <if test="param.batchNo != null and param.batchNo != ''">
+                AND batch_no = #{param.batchNo}
+            </if>
+            <if test="param.qualityStatus != null">
+                AND quality_status = #{param.qualityStatus}
+            </if>
+            AND is_active = true
+        </where>
+        ORDER BY create_datetime DESC
+        LIMIT #{param.pageSize} OFFSET #{param.offset}
+    </select>
+
+    <!-- 统计数量 -->
+    <select id="countByCondition" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM wms_requisition_item
+        <where>
+            <if test="param.formNo != null and param.formNo != ''">
+                AND form_no = #{param.formNo}
+            </if>
+            <if test="param.skuCode != null and param.skuCode != ''">
+                AND sku_code = #{param.skuCode}
+            </if>
+            <if test="param.batchNo != null and param.batchNo != ''">
+                AND batch_no = #{param.batchNo}
+            </if>
+            <if test="param.qualityStatus != null">
+                AND quality_status = #{param.qualityStatus}
+            </if>
+            AND is_active = true
+        </where>
+    </select>
+
+</mapper>

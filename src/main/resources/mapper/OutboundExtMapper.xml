@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zdjc.wms.project.mapper.outbound.OutboundExtMapper">
+    <select id="findCreatedOutboundPickTaskList" resultType="cn.zdjc.wms.project.vo.outbound.PjOutboundOrderPickInfoVo" >
+        SELECT t.id AS pick_item_id,
+        t.picked_qty,
+        t.qty,
+        t2.house_code,
+        t2.location_code,
+        t.material_id,
+        t.container_code,
+        t.business_id,
+        t8.inner_no businessNo,
+        t.business_type,
+        t.business_item_id,
+        t7.depth_value,
+        t8.customer_code,
+        t8.create_time as 'waveTime'
+        FROM wms_pick_item t
+        LEFT JOIN wms_container t2 ON t2.code = t.container_code
+        LEFT JOIN wms_outbound t3 ON t3.id = t.outbound_id
+        LEFT JOIN wms_storage_location t4 ON t4.loc_no = t2.location_code
+        LEFT JOIN wms_roadway t5 ON t4.rela_roadway_id = t5.id
+        LEFT JOIN wms_storage_location_occupy t6 ON t6.parent_id = t4.id
+        LEFT JOIN wms_warehouse_row t7 ON t7.id = t4.row_id
+        LEFT JOIN wms_inventory_requisition_order t8 ON t.business_id = t8.id
+        WHERE t4.loc_type = 'cubic'
+        AND t6.id is not null
+        AND (t5.is_enable = 0 OR t5.is_enable is null)
+        AND (t3.state NOT IN ('creating', 'outbounding') OR t.outbound_id IS NULL)
+        AND t.state = 'created'
+        <if test="dto.houseCode !=null and dto.houseCode != ''">
+            AND t4.house_code = #{dto.houseCode}
+        </if>
+        ORDER BY t.create_time
+    </select>
+
+    <select id="findCommonPickOutboundTaskList" resultType="cn.zdjc.wms.project.vo.outbound.PjOutboundOrderTaskVo" >
+        SELECT t.id AS pick_item_id,
+        t.pick_order_id,
+        t.picked_qty,
+        t2.house_code,
+        t2.location_code,
+        t.material_id,
+        t.container_code,
+        t3.exit_location,
+        t4.inner_no orderNo,
+        t4.create_time as 'waveTime'
+        FROM wms_pick_item t
+        LEFT JOIN wms_container t2 ON t2.code = t.container_code
+        LEFT JOIN wms_outbound t3 ON t3.id = t.outbound_id
+        LEFT JOIN wms_inventory_requisition_order t4 ON t4.id = t.business_id
+        WHERE 1=1
+        <if test="dto.pickStates != null and dto.pickStates.size() > 0">
+            AND t.state in
+            <foreach item="state" index="index" collection="dto.pickStates" open="(" separator="," close=")">
+                #{state}
+            </foreach>
+        </if>
+        <if test="dto.outStates != null and dto.outStates.size() > 0">
+            AND t3.state in
+            <foreach item="status" index="index" collection="dto.outStates" open="(" separator="," close=")">
+                #{status}
+            </foreach>
+        </if>
+        <if test="dto.pickItemId !=null and dto.pickItemId != ''">
+            AND t.id = #{dto.pickItemId}
+        </if>
+        <if test="dto.containerCode !=null and dto.containerCode != ''">
+            AND t.container_code = #{dto.containerCode}
+        </if>
+        <if test="dto.outStationCode !=null and dto.outStationCode != ''">
+            AND t.pick_station = #{dto.outStationCode}
+        </if>
+        <if test="dto.orderNo !=null and dto.orderNo != ''">
+            AND t4.inner_no = #{dto.orderNo}
+        </if>
+        <if test="dto.orderNoList != null and dto.orderNoList.size() > 0">
+            AND t4.inner_no in
+            <foreach item="orderNo" index="index" collection="dto.orderNoList" open="(" separator="," close=")">
+                #{orderNo}
+            </foreach>
+        </if>
+        ORDER BY t.create_time
+    </select>
+
+
+    <select id="findOutboundTaskList" resultType="cn.zdjc.wms.project.vo.outbound.PjOutboundOrderTaskVo" >
+        SELECT
+        t4.house_code,
+        t2.location_code,
+        t.container_code,
+        t.warehouse_location outboundLocationCode,
+        t.exit_location,
+        t.external_no orderNo,
+        t.type as 'outboundType',
+        t7.depth_value,
+        CASE
+        WHEN t.wave_time IS NOT NULL THEN
+        t.wave_time
+        ELSE
+        t.create_time
+        END AS waveTime,
+        CASE
+        WHEN t.wave_time IS NOT NULL THEN
+        t.wave_time
+        ELSE
+        t.create_time
+        END AS waveSendWcsTime
+        FROM wms_outbound t
+        LEFT JOIN wms_container t2 ON t2.code = t.container_code
+        LEFT JOIN wms_storage_location t4 ON t4.loc_no = t2.location_code
+        LEFT JOIN wms_roadway t5 ON t4.rela_roadway_id = t5.id
+        LEFT JOIN wms_storage_location_occupy t6 ON t6.parent_id = t4.id
+        LEFT JOIN wms_warehouse_row t7 ON t7.id = t4.row_id
+        WHERE t4.loc_type = 'cubic'
+        AND t6.id is not null
+        AND t.type != 'm_out'
+        AND (t5.is_enable = 0 OR t5.is_enable is null)
+        <if test="dto.outStates != null and dto.outStates.size() > 0">
+            AND t.state in
+            <foreach item="status" index="index" collection="dto.outStates" open="(" separator="," close=")">
+                #{status}
+            </foreach>
+        </if>
+        <if test="dto.outStationCodeList != null and dto.outStationCodeList.size() > 0">
+            AND t.exit_location in
+            <foreach item="stationCode" index="index" collection="dto.outStationCodeList" open="(" separator="," close=")">
+                #{stationCode}
+            </foreach>
+        </if>
+        <if test="dto.notOutStationCodeList != null and dto.notOutStationCodeList.size() > 0">
+            AND t.exit_location  not in
+            <foreach item="stationCode" index="index" collection="dto.notOutStationCodeList" open="(" separator="," close=")">
+                #{stationCode}
+            </foreach>
+        </if>
+        <if test="dto.houseCode !=null and dto.houseCode != ''">
+            AND t4.house_code = #{dto.houseCode}
+        </if>
+        ORDER BY t.create_time
+    </select>
+
+    <update id="updatePickItemOutboundId">
+        UPDATE wms_pick_item
+        SET outbound_id = #{outboundOrderId},
+            pick_station      = #{pickStation}
+        WHERE id = #{pickItemId}
+    </update>
+
+    <select id="activeTransportByLocationAndRoadwayLock" resultType="java.lang.Integer">
+        SELECT COUNT
+               (1)
+        FROM wms_transport t
+                 LEFT JOIN wms_storage_location t1 ON t.origin = t1.loc_no
+                 LEFT JOIN wms_roadway t2 ON t1.rela_roadway_id = t2.id
+        WHERE destination = #{locationCode}
+          AND state in ('executing', 'prepare' ,'dropFinish')
+          AND (t2.is_enable = 0 or t2.is_enable is null)
+    </select>
+
+    <select id="activeTransportAndOutboundByLocation" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM wms_transport t
+                 LEFT JOIN wms_outbound t1
+                           ON t.business_order_id = t1.id
+                 LEFT JOIN wms_storage_location t3 ON t.origin = t3.loc_no
+                 LEFT JOIN wms_roadway t2 ON t3.rela_roadway_id = t2.id
+        WHERE destination  =#{locationCode}
+          and t1.exit_location  =#{outStation}
+          and t.state in ('executing', 'prepare' ,'dropFinish')
+          and (t2.is_enable = 0 or t2.is_enable is null)
+    </select>
+
+    <select id="activeTaskOrderAndOutboundByLocation" resultType="cn.zdjc.wms.project.vo.outbound.PjOutboundOrderTaskVo" >
+        SELECT
+            t.container_code,
+            t1.external_no orderNo
+        FROM
+            wms_transport t
+                LEFT JOIN wms_outbound t1 ON t.business_order_id = t1.id
+                LEFT JOIN wms_storage_location t3 ON t.origin = t3.loc_no
+                LEFT JOIN wms_roadway t2 ON t3.rela_roadway_id = t2.id
+        WHERE
+            destination = #{locationCode}
+          AND t1.exit_location = #{outStation}
+          AND t.state IN ('executing', 'prepare')
+          AND (t2.is_enable = 0 OR t2.is_enable IS NULL)
+    </select>
+
+    <select id="findWorkstationPickTaskNum"  resultType="cn.zdjc.wms.project.domain.dto.pick.WorkstationPickTaskNumDto">
+        SELECT
+            pick_station as workstationCode,
+            COUNT(*) as taskNum
+        FROM
+            (SELECT pick_station, container_code
+             FROM wms_pick_item
+             WHERE pick_station IN
+             <foreach item="code" index="index" collection="workstationCodeList" open="(" separator="," close=")">
+                   #{code}
+             </foreach>
+             AND state = 'created'
+             GROUP BY pick_station, container_code) t
+        GROUP BY pick_station
+    </select>
+
+    <select id="findSlideCodeInfoByOrderNo" resultType="java.lang.String">
+        select slide_code
+        from wms_inventory_requisition_order
+        where inner_no = #{orderNo}
+              LIMIT 1
+    </select>
+
+    <select id="findOrderWaveTimeByContainerCode" resultType="cn.zdjc.wms.project.vo.outbound.PjOutboundOrderInfoVo">
+        SELECT
+            t1.create_time  waveLocalTime,
+            t1.create_time waveTime,
+            t1.inner_no orderNo
+        FROM
+            wms_pick_item t
+                LEFT JOIN wms_inventory_requisition_order t1 ON t.business_id = t1.id
+        WHERE
+            t.container_code = #{containerCode}
+          AND t.pick_station = #{pickStation}
+        ORDER BY
+            t1.create_time
+            LIMIT 1
+    </select>
+</mapper>

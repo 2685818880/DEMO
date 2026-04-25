@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zdjc.wms.project.mapper.workstation.WorkstationExtMapper">
+    <insert id="insert" parameterType="cn.zdjc.wms.project.domain.entity.ws.WorkstationExtEntity">
+        INSERT INTO wms_workstation (
+        id,  <!-- 必须包含 id -->
+        workstation_code,
+        workstation_name,
+        workstation_describe,
+        is_open,
+        workstation_ip,
+        workstation_status,
+        workstation_mode,
+        operator
+        ) VALUES (
+        #{id, jdbcType=VARCHAR},  <!-- 关键：指定 jdbcType -->
+        #{workstationCode},
+        #{workstationName},
+        #{workstationDescribe},
+        #{isOpen},
+        #{workstationIp},
+        #{workstationStatus},
+        #{workstationMode},
+        #{operator}
+        )
+    </insert>
+</mapper>

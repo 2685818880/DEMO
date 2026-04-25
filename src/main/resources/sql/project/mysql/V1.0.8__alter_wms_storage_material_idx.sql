@@ -1,0 +1,98 @@
+--
+--   -- 高频查询字段索引
+--   ALTER TABLE wms_workstation ADD INDEX idx_workstation_code (workstation_code);
+--   ALTER TABLE wms_workstation ADD INDEX idx_workstation_status (workstation_status);
+--   ALTER TABLE wms_workstation ADD INDEX idx_is_open (is_open);
+--   ALTER TABLE wms_workstation ADD INDEX idx_create_datetime (create_datetime);
+--
+--   -- 复合索引（常见查询组合）
+--   ALTER TABLE wms_workstation ADD INDEX idx_status_code (workstation_status, workstation_code);
+--   ALTER TABLE wms_workstation ADD INDEX idx_ip_status (workstation_ip, workstation_status);
+--
+--   -- 基于视图 V1.0.4 和实体类推断的字段
+--   -- 现有索引：idx_sm_business_form_no (business_form_no)
+--   -- 建议添加以下索引：
+--   ALTER TABLE wms_storage_material ADD INDEX idx_sku_code (sku_code);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_batch_no (batch_no);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_serial_no (serial_no);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_house_code (house_code);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_category_code (category_code);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_inventory_status (inventory_status);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_quality_status (quality_status);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_batch_status (batch_status);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_create_datetime (create_datetime);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_inventory_location (inventory_location);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_package_level (package_level);
+--
+--   -- 复合索引（优化分组和查询）
+--   ALTER TABLE wms_storage_material ADD INDEX idx_sku_status (sku_code, inventory_status);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_house_sku (house_code, sku_code);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_location_status (inventory_location, inventory_status);
+--   ALTER TABLE wms_storage_material ADD INDEX idx_batch_quality (batch_no, quality_status);
+--
+--
+--   -- 基于实体类 SkuExtEntity (@BeanAlias("wms_sku"))
+--   -- 建议添加以下索引：
+--   ALTER TABLE wms_sku ADD INDEX idx_sku_code (sku_code);
+--   ALTER TABLE wms_sku ADD INDEX idx_category_code (category_code);
+--
+--
+--
+--   -- 基于实体类 AsnExtEntity (推断表名)
+--   -- 建议添加以下索引：
+--   ALTER TABLE wms_asn ADD INDEX idx_form_no (form_no);
+--   ALTER TABLE wms_asn ADD INDEX idx_asn_status (asn_status);
+--   ALTER TABLE wms_asn ADD INDEX idx_business_form_no (business_form_no);
+--   ALTER TABLE wms_asn ADD INDEX idx_supplier_code (supplier_code);
+--   ALTER TABLE wms_asn ADD INDEX idx_owner_code (owner_code);
+--   ALTER TABLE wms_asn ADD INDEX idx_create_datetime (create_datetime);
+--
+--   -- 复合索引
+--   ALTER TABLE wms_asn ADD INDEX idx_status_time (asn_status, create_datetime);
+--   ALTER TABLE wms_asn ADD INDEX idx_form_supplier (form_no, supplier_code);
+--   ALTER TABLE wms_asn ADD INDEX idx_business_status (business_form_no, asn_status);
+--
+--
+--
+--   -- 基于实体类 OutboundExtEntity (@TableName("wms_outbound"))
+--   -- 建议添加以下索引：
+--   ALTER TABLE wms_outbound ADD INDEX idx_form_no (form_no);
+--   ALTER TABLE wms_outbound ADD INDEX idx_form_status (form_status);
+--   ALTER TABLE wms_outbound ADD INDEX idx_form_type (form_type);
+--   ALTER TABLE wms_outbound ADD INDEX idx_house_code (house_code);
+--   ALTER TABLE wms_outbound ADD INDEX idx_container_code (container_code);
+--   ALTER TABLE wms_outbound ADD INDEX idx_location_code (location_code);
+--   ALTER TABLE wms_outbound ADD INDEX idx_out_task_no (out_task_no);
+--   ALTER TABLE wms_outbound ADD INDEX idx_out_status (out_status);
+--   ALTER TABLE wms_outbound ADD INDEX idx_create_datetime (create_datetime);
+--
+--   -- 复合索引
+--   ALTER TABLE wms_outbound ADD INDEX idx_status_type (form_status, form_type);
+--   ALTER TABLE wms_outbound ADD INDEX idx_house_status (house_code, form_status);
+--   ALTER TABLE wms_outbound ADD INDEX idx_container_status (container_code, form_status);
+--
+--
+--
+--   -- 基于实体类 PickItemExtEntity (@TableName("wms_pick_item"))
+--   -- 建议添加以下索引：
+--   ALTER TABLE wms_pick_item ADD INDEX idx_workstation_code (workstation_code);
+--   ALTER TABLE wms_pick_item ADD INDEX idx_sku_code (sku_code);
+--   ALTER TABLE wms_pick_item ADD INDEX idx_outbound_id (outbound_id);
+--   ALTER TABLE wms_pick_item ADD INDEX idx_pick_status (pick_status);
+--   ALTER TABLE wms_pick_item ADD INDEX idx_order_container_code (order_container_code);
+--   ALTER TABLE wms_pick_item ADD INDEX idx_create_datetime (create_datetime);
+--
+--   -- 复合索引
+--
+--   ALTER TABLE wms_pick_item ADD INDEX idx_status_workstation (pick_status, workstation_code);
+--   ALTER TABLE wms_pick_item ADD INDEX idx_sku_status (sku_code, pick_status);
+--
+--   7. 库位表 wms_storage_location
+--
+--   -- 基于实体类 StorageLocationExtEntity
+--   -- 建议添加以下索引：
+--   ALTER TABLE wms_storage_location ADD INDEX idx_location_code (loc_no);
+--   ALTER TABLE wms_storage_location ADD INDEX idx_loc_type (loc_type);
+--   ALTER TABLE wms_storage_location ADD INDEX idx_house_code (house_code);
+--
+--

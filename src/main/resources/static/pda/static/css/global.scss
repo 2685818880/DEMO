@@ -1,0 +1,47 @@
+.content-title {
+  line-height: 40upx;
+  font-size: 28upx;
+  padding: 10upx 30upx;
+  position: relative;
+  display: flex;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 16upx;
+    top: 16upx;
+    bottom: 16upx;
+    width: 8upx;
+    background: blue;
+  }
+  .title-item {
+    flex: 1;
+  }
+}
+
+.split-bar {
+  height: 8px;
+  background: #eee;
+}
+
+.confirm-button-wrap {
+  padding: 20upx 10upx;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #FFF;
+  display: flex;
+  span {
+    font-size: 40upx;
+  }
+}
+
+@media (max-height: 936upx) {
+  .layout-button {
+    display: none;
+  }
+}
+
+.full-height {
+  height: 100%
+}

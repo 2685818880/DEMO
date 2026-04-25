@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zdjc.wms.project.form.mapper.DatabaseConfigMapper">
+    <select id="selectAllEnabled" resultType="cn.zdjc.wms.project.form.model.entity.DatabaseConfigEntity">
+        SELECT * FROM wms_database_config WHERE enabled = 1
+    </select>
+    <select id="selectByCode" resultType="cn.zdjc.wms.project.form.model.entity.DatabaseConfigEntity">
+        SELECT * FROM wms_database_config WHERE db_code = #{dbCode} LIMIT 1
+    </select>
+    <select id="checkCodeExists" resultType="int">
+        SELECT COUNT(*) FROM wms_database_config WHERE db_code = #{dbCode}
+    </select>
+</mapper>

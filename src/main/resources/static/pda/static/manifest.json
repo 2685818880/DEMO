@@ -1,0 +1,13 @@
+{
+  "name": "WMS_PDA",
+  "short_name": "WMS_PDA",
+  "start_url": "/app/pda/index.html",
+  "display": "standalone",
+  "background_color": "none",
+  "description": "A simply warehouse management app.",
+  "icons": [{
+    "src": "./img/appicon.png",
+    "sizes": "199x199",
+    "type": "image/png"
+  }]
+}

@@ -1,0 +1,6 @@
+-16 14:45:50.857[0;39m [32m INFO[0;39m [35m14468[0;39m [2m---[0;39m [2m[           main][0;39m [36m.e.t.d.o.a.DemoOrderTwoAutoConfiguration[0;39m [2m:[0;39m             ----  DemoOrderTwoAutoConfiguration consturct ----
+[2m2021-10-16 14:45:50.857[0;39m [32m INFO[0;39m [35m14468[0;39m [2m---[0;39m [2m[           main][0;39m [36m.e.t.d.o.a.DemoOrderTwoAutoConfiguration[0;39m [2m:[0;39m DemoOrderTwoAutoConfiguration create bean
+[2m2021-10-16 14:45:50.857[0;39m [32m INFO[0;39m [35m14468[0;39m [2m---[0;39m [2m[           main][0;39m [36m.e.t.d.o.a.DemoOrderOneAutoConfiguration[0;39m [2m:[0;39m ----  DemoOrderOneAutoConfiguration consturct ----
+[2m2021-10-16 14:45:50.858[0;39m [32m INFO[0;39m [35m14468[0;39m [2m---[0;39m [2m[           main][0;39m [36m.e.t.d.o.a.DemoOrderOneAutoConfiguration[0;39m [2m:[0;39m DemoOrderOneAutoConfiguration create bean
+
+

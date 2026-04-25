@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zdjc.wms.project.ai.mapper.AiModelMapper">
+    <select id="selectByProviderId" resultType="cn.zdjc.wms.project.ai.model.entity.AiModelEntity">
+        SELECT * FROM wms_ai_model
+        WHERE is_active = 1 AND provider_id = #{providerId}
+        ORDER BY create_datetime ASC
+    </select>
+</mapper>

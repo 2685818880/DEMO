@@ -1,0 +1,87 @@
+## 出库任务定时器配置
+## 定时检查并下发出库任务
+#
+#spring:
+#  # 定时任务配置
+#  task:
+#    scheduling:
+#      # 线程池配置
+#      pool:
+#        size: 5
+#      # 线程名前缀
+#      thread-name-prefix: "outbound-scheduler-"
+#      # 关闭时是否等待任务完成
+#      shutdown:
+#        await-termination: true
+#        await-termination-period: 60s
+#
+## 出库任务定时器配置
+#outbound:
+#  scheduler:
+#    # 定时器开关
+#    enabled: true
+#    # 执行间隔（毫秒）
+#    fixed-delay: 30000
+#    # 初始延迟（毫秒）- 应用启动后延迟执行
+#    initial-delay: 10000
+#    # 最大并发任务数
+#    max-concurrent-tasks: 5
+#    # 任务超时时间（秒）
+#    task-timeout: 300
+#    # 日志级别
+#    log-level: INFO
+#
+#    # 出库任务过滤配置
+#    filter:
+#      # 是否过滤已有活跃任务的容器
+#      filter-active-container: true
+#      # 是否检查容器编码有效性
+#      validate-container-code: true
+#      # 是否检查库位编码有效性
+#      validate-location-code: true
+#      # 是否检查下架站台有效性
+#      validate-out-station: false
+#
+#    # 重试配置
+#    retry:
+#      # 最大重试次数
+#      max-attempts: 3
+#      # 重试间隔（毫秒）
+#      backoff-delay: 5000
+#      # 是否启用指数退避
+#      exponential-backoff: true
+#
+#    # 监控配置
+#    monitor:
+#      # 是否启用监控
+#      enabled: true
+#      # 监控指标前缀
+#      metrics-prefix: "outbound.scheduler"
+#      # 统计窗口大小
+#      stats-window-size: 100
+#
+## 调度任务配置
+#dispatch:
+#  # 默认仓库编码
+#  default-house-code: "878"
+#  # 默认下架站台
+#  default-out-station: "OUTBOUND_STATION"
+#  # 自动发送任务到WCS
+#  auto-send: true
+#  # 任务参数
+#  parameters:
+#    # 任务优先级
+#    priority: "NORMAL"
+#    # 任务类型
+#    task-type: "OUTBOUND"
+#    # 是否允许重复下发
+#    allow-duplicate: false
+#
+## 日志配置
+#logging:
+#  level:
+#    cn.zdjc.wms.project.service.outbound.OutboundTaskScheduler: INFO
+#    org.springframework.scheduling: WARN
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	">
+
+	<!--
+		develop：
+		开发者模式会去掉部分缓存
+		会显示sql日志
+		resetDatabase:
+		会在开启项目前清空数据库（开启慎重）
+		checkPermissiom:
+		权限（考虑添加个*来判断全有）
+	-->
+	<bean id="developConfigBean" class="com.foeris.y.fairy.config.DevelopConfigBean">
+		<property name="develop" value="true"></property>
+		<property name="resetDatabase" value="false"></property>
+		<property name="checkPermission" value="false"></property>
+	</bean>
+
+	<!-- 是否打印sql语句等 -->
+	<bean id="sqlLogConfigBean" class="com.foeris.y.fairy.jdbc.config.SqlLogConfigBean">
+		<!-- 如果采用的写法没用map模式是不会把sql语句打印出来的,可以考虑添加named为非sql的时候 -->
+		<property name="named" value="false" />
+		<property name="sql" value="false" />
+		<property name="format" value="true" />
+	</bean>
+	
+</beans>      

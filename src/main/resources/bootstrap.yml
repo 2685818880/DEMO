@@ -1,0 +1,33 @@
+server:
+  port: ${server_port:80}
+  servlet:
+    context-path: ${server_path:/}
+cxf:
+  path: /webservice
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+eureka:
+  client:
+    enabled: ${system_register:false}
+    serviceUrl:
+      defaultZone: ${system_eureka:http://localhost:20079/eureka/}
+  instance:
+    hostname: ${server_host:localhost}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 30
+spring:
+  application:
+    name: ${system_name:app}
+  profiles:
+    active: ${system_profiles:prod}
+  main:
+    allow-bean-definition-overriding: true
+encrypt:
+  key: 123456
+

@@ -1,0 +1,264 @@
+{
+  "menu": [
+    {
+      "label": "空托注册",
+      "key": "register",
+      "icon": "./static/img/menu-ck.png",
+      "path": "/pages/pj638/palletize/register"
+    },
+    {
+      "label": "空托呼叫",
+      "key": "call",
+      "icon": "./static/img/menu-ktp.png",
+      "path": "/pages/pj638/palletize/call"
+    },
+    {
+      "label": "成品组盘",
+      "key": "palletize",
+      "icon": "./static/img/menu-pd.png",
+      "path": "/pages/pj638/palletize/index"
+    }
+  ],
+  "formFields": {
+    "Pick": {
+      "base": [
+        {
+          "label": "库区",
+          "key": "houseCode",
+          "required": true
+        },
+        {
+          "label": "拣选台",
+          "key": "pick_station",
+          "required": true
+        },
+        {
+          "label": "托盘号",
+          "key": "container_code",
+          "required": true
+        },
+        {
+          "label": "订单号",
+          "key": "requisitionItemNo",
+          "required": true
+        },
+        {
+          "label": "新托盘号",
+          "key": "targetContainer"
+        },
+        {
+          "label": "拣出数量",
+          "key": "pickOutQty",
+          "required": true
+        },
+        {
+          "label": "单位",
+          "key": "unit"
+        }
+      ]
+    },
+    "Register": {
+      "base": [
+        {
+          "label": "库区",
+          "key": "houseCode"
+        },
+        {
+          "label": "入库口",
+          "key": "deviceCode"
+        },
+        {
+          "label": "容器号",
+          "key": "containerCode"
+        },
+        {
+          "label": "数量",
+          "key": "empty_qty"
+        },
+        {
+          "label": "上次注册",
+          "key": "lasttime"
+        }
+      ]
+    },
+    "Call": {
+      "base": [
+        {
+          "label": "所在库区",
+          "key": "house_code"
+        },
+        {
+          "label": "出库口",
+          "key": "to_pos"
+        },
+        {
+          "label": "托盘类型",
+          "key": "container_type"
+        },
+        {
+          "label": "可叫数量",
+          "key": "count"
+        }
+      ]
+    },
+    "Inventory": {
+      "base": [
+        {
+          "label": "托盘码",
+          "key": "container_code"
+        }
+      ]
+    },
+    "Allocation": {
+      "base": [
+        {
+          "label": "需求单单号",
+          "key": "container",
+          "required": true
+        }
+      ]
+    },
+    "InventoryEdit": {
+      "base": [
+        {
+          "label": "盘点单号",
+          "key": "stock_form_no"
+        },
+        {
+          "label": "托盘码",
+          "key": "container_code"
+        },
+        {
+          "label": "物料码类型",
+          "key": "code_type"
+        },
+        {
+          "label": "物料SN",
+          "key": "serial_no"
+        },
+        {
+          "label": "物料SKU",
+          "key": "sku_code"
+        }
+      ]
+    }
+  },
+  "listFields": {
+    "Palletize": [
+      {
+        "label": "物料SN",
+        "prop": "serial_no"
+      },
+      {
+        "label": "存货编码",
+        "prop": "category_code"
+      },
+      {
+        "label": "存货名称",
+        "prop": "category_name"
+      },
+      {
+        "label": "物料编码",
+        "prop": "sku_code"
+      },
+      {
+        "label": "物料名称",
+        "prop": "sku_name"
+      },
+      {
+        "label": "数量",
+        "prop": "primary_qty"
+      },
+      {
+        "label": "单位",
+        "prop": "primary_unit"
+      }
+    ],
+    "Pick": [
+      {
+        "label": "物料SN",
+        "prop": "serialNo"
+      },
+      {
+        "label": "物料编码",
+        "prop": "skuCode"
+      },
+      {
+        "label": "物料名称",
+        "prop": "skuName"
+      },
+      {
+        "label": "客户",
+        "prop": "owner_name"
+      },
+      {
+        "label": "数量",
+        "prop": "pickQty"
+      },
+      {
+        "label": "单位",
+        "prop": "unit"
+      }
+    ],
+    "Inventory": [
+      {
+        "label": "库区",
+        "prop": "house_code"
+      },
+      {
+        "label": "盘点单号",
+        "prop": "stock_form_no"
+      },
+      {
+        "label": "托盘号",
+        "prop": "container_code"
+      },
+      {
+        "label": "创建人",
+        "prop": "operator"
+      }
+    ],
+    "InventoryEdit": [
+      {
+        "label": "存货编码",
+        "prop": "category_code"
+      },
+      {
+        "label": "存货名称",
+        "prop": "category_name"
+      },
+      {
+        "label": "物料编码",
+        "prop": "sku_code"
+      },
+      {
+        "label": "物料名称",
+        "prop": "sku_name"
+      },
+      {
+        "label": "库存数量",
+        "prop": "stock_qty"
+      },
+      {
+        "label": "实际数量",
+        "prop": "actual_qty",
+        "scopedSlot": "actual_qty"
+      },
+      {
+        "label": "库存单位",
+        "prop": "stock_unit"
+      },
+      {
+        "label": "盈亏类型",
+        "prop": "profit_loss_type",
+        "type": "enum",
+        "code": "ProfitLossType"
+      },
+      {
+        "label": "盈亏数量",
+        "prop": "profit_loss_qty",
+        "scopedSlot": "profit_loss_qty"
+      }
+    ]
+  }
+}

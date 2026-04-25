@@ -1,0 +1,1 @@
+各自删除config-db.properties.temp的.temp扩展名，并修改里面的数据库连接

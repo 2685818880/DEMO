@@ -1,0 +1,152 @@
+.sidebar-container {
+  .el-scrollbar{
+    .menu-wrapper{
+      .iconfont{
+        margin-left: 10px;
+      }
+    }
+  }
+}
+.ts-skin .wrapper-content {
+  padding: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  // height: calc(100vh - 100px);
+}
+.g-search {
+  background-color: #fff;
+}
+
+.g-search .el-form-item {
+  margin-bottom: 5px;
+}
+
+.g-toolbars {
+}
+.g-content {
+  background-color: #fff;
+}
+
+.el-table--small td, .el-table--small th {
+  padding: 2px 0;
+}
+
+.resize-container {
+  .el-card__header {
+    padding: 8px;
+    font-weight: bold;
+  }
+  .el-card__body {
+    padding: 8px;
+  }
+}
+
+.el-table thead th {
+  background: #f5f7fa;
+}
+.g-drawerModal {
+  .g-drawer-content {
+    box-sizing: border-box;
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+.el-dialog__header {
+  padding: 8px 20px;
+}
+
+.el-dialog__headerbtn {
+  top: 8px;
+}
+
+.el-dialog__title {
+  font-size: 16px;
+}
+
+.el-dialog__body {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.g-drawer-footer {
+  position: absolute;
+  padding: 8px!important;
+  bottom: 0;
+  text-align: right;
+  width: 100%;
+  border-top: 1px solid #dcdfe6;
+  background: #fff;
+  z-index: 1;
+}
+
+.g-drawerModal {
+  .el-drawer__body {
+    padding: 10px;
+  }
+  .el-drawer__header {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.g-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mt5 {
+  margin-top: 5px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+
+.form-view .el-form-item {
+  margin-bottom: 0;
+}
+
+.el-table__expanded-cell[class*=cell] {
+  //padding: 0;
+}
+
+.el-table__expanded-cell .el-table tr{
+}
+
+.el-table--border .el-table__expanded-cell {
+  td,th {
+    border-right-color: transparent;
+  }
+}
+
+.el-table__expanded-cell .subTable {
+  margin: -10px -40px;
+}
+
+.el-table .cell {
+  white-space: nowrap;
+}
+
+.g-drawerModal .el-drawer__header {
+  padding: 10px;
+  border-bottom: 1px solid #dcdfe6;
+}
+
+.el-table ::-webkit-scrollbar {
+  height: 10px;
+}
+
+.el-button+.el-button {
+  margin-left: 10px;
+}
+
+.el-button--small, .el-button--small.is-round {
+  padding: 9px 9px;
+}
+
+.g-drawer-content .resize-container {
+  height: calc(100%);
+}

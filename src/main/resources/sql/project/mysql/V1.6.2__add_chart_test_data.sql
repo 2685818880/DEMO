@@ -1,0 +1,161 @@
+-- -- 自定义报表 - 图表测试数据
+-- -- 给业务表插入示例数据，使 5 个示例报表都能展示图表和数据
+-- -- 适用于 MySQL
+--
+-- -- ============================================================
+-- -- 1. wms_storage_material — 库存物料数据（15 条，覆盖 3 仓库 × 3 质量状态）
+-- -- ============================================================
+-- INSERT INTO wms_storage_material(id, house_code, category_code, category_name, sku_code, sku_name, batch_no, serial_no,
+--                                  primary_qty, primary_unit, auxiliary_qty, auxiliary_unit,
+--                                  available_qty, quality_status, batch_status, inventory_status,
+--                                  package_level, vendor_name, owner_code, owner_name,
+--                                  is_active, create_datetime, last_modify_datetime)
+-- SELECT id, house_code, category_code, category_name, sku_code, sku_name, batch_no, serial_no,
+--        primary_qty, primary_unit, auxiliary_qty, auxiliary_unit,
+--        available_qty, quality_status, batch_status, inventory_status,
+--        package_level, vendor_name, owner_code, owner_name,
+--        1, NOW() - INTERVAL seq DAY, NOW()
+-- FROM (
+--   SELECT UUID() as id, 'WH01' as house_code, 'A01' as category_code, '标准件' as category_name,
+--          'SKU001' as sku_code, '螺栓M8×30' as sku_name, 'B20260401' as batch_no,
+--          CONCAT('SN', REPLACE(UUID(),'-','')) as serial_no,
+--          2000 as primary_qty, '个' as primary_unit, 100 as auxiliary_qty, '盒' as auxiliary_unit,
+--          1850 as available_qty, 'OK' as quality_status, 'ACTIVE' as batch_status, 'NORMAL' as inventory_status,
+--          'CASE' as package_level, '华强紧固件' as vendor_name, 'OWNER01' as owner_code, '自营' as owner_name,
+--          0 as seq
+--   UNION ALL SELECT UUID(), 'WH01', 'A01', '标准件', 'SKU002', '螺母M8', 'B20260401', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    3000, '个', 150, '盒', 2950, 'OK', 'ACTIVE', 'NORMAL',
+--                    'CASE', '华强紧固件', 'OWNER01', '自营', 1
+--   UNION ALL SELECT UUID(), 'WH01', 'A02', '传动件', 'SKU003', '深沟球轴承6205', 'B20260315', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    800, '套', 0, NULL, 760, 'OK', 'ACTIVE', 'NORMAL',
+--                    'BOX', '洛阳轴承厂', 'OWNER01', '自营', 2
+--   UNION ALL SELECT UUID(), 'WH01', 'A02', '传动件', 'SKU004', '直线导轨SBR20', 'B20260320', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    200, '根', 0, NULL, 180, 'QC', 'ACTIVE', 'NORMAL',
+--                    'PALLET', '上银传动', 'OWNER02', '代销', 3
+--   UNION ALL SELECT UUID(), 'WH01', 'A03', '密封件', 'SKU005', 'O型密封圈Φ50', 'B20260405', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    5000, '个', 200, '包', 4800, 'OK', 'ACTIVE', 'NORMAL',
+--                    'BAG', '密封科技', 'OWNER01', '自营', 4
+--   UNION ALL SELECT UUID(), 'WH01', 'A03', '密封件', 'SKU005', 'O型密封圈Φ50', 'B20260301', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    3000, '个', 120, '包', 2800, 'OK', 'ACTIVE', 'NORMAL',
+--                    'BAG', '密封科技', 'OWNER01', '自营', 5
+--   UNION ALL SELECT UUID(), 'WH02', 'A01', '标准件', 'SKU001', '螺栓M8×30', 'B20260410', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    1500, '个', 75, '盒', 1500, 'OK', 'ACTIVE', 'NORMAL',
+--                    'CASE', '华强紧固件', 'OWNER01', '自营', 6
+--   UNION ALL SELECT UUID(), 'WH02', 'B01', '气动件', 'SKU006', '气缸SC63×200', 'B20260325', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    120, '个', 0, NULL, 105, 'OK', 'ACTIVE', 'NORMAL',
+--                    'BOX', '亚德客气动', 'OWNER01', '自营', 7
+--   UNION ALL SELECT UUID(), 'WH02', 'B01', '气动件', 'SKU007', '电磁阀4V210', 'B20260328', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    350, '个', 0, NULL, 300, 'LOCKED', 'ACTIVE', 'FROZEN',
+--                    'BOX', '亚德客气动', 'OWNER02', '代销', 8
+--   UNION ALL SELECT UUID(), 'WH02', 'B02', '传感件', 'SKU008', '光电传感器E3Z', 'B20260402', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    500, '个', 0, NULL, 480, 'OK', 'ACTIVE', 'NORMAL',
+--                    'BOX', '欧姆龙电子', 'OWNER01', '自营', 9
+--   UNION ALL SELECT UUID(), 'WH02', 'B02', '传感件', 'SKU008', '光电传感器E3Z', 'B20260310', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    200, '个', 0, NULL, 150, 'QC', 'ACTIVE', 'NORMAL',
+--                    'BOX', '欧姆龙电子', 'OWNER01', '自营', 10
+--   UNION ALL SELECT UUID(), 'WH03', 'C01', '油品类', 'SKU009', '液压油46#', 'B20260401', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    5000, '升', 0, NULL, 4800, 'OK', 'ACTIVE', 'NORMAL',
+--                    'DRUM', '昆仑润滑', 'OWNER01', '自营', 11
+--   UNION ALL SELECT UUID(), 'WH03', 'C01', '油品类', 'SKU010', '导轨润滑油', 'B20260401', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    3000, '升', 0, NULL, 2900, 'OK', 'ACTIVE', 'NORMAL',
+--                    'DRUM', '昆仑润滑', 'OWNER01', '自营', 12
+--   UNION ALL SELECT UUID(), 'WH03', 'A01', '标准件', 'SKU002', '螺母M8', 'B20260405', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    1000, '个', 50, '盒', 980, 'OK', 'ACTIVE', 'NORMAL',
+--                    'CASE', '华强紧固件', 'OWNER01', '自营', 13
+--   UNION ALL SELECT UUID(), 'WH03', 'A02', '传动件', 'SKU003', '深沟球轴承6205', 'B20260301', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    400, '套', 0, NULL, 350, 'QC', 'ACTIVE', 'NORMAL',
+--                    'BOX', '洛阳轴承厂', 'OWNER01', '自营', 14
+--   UNION ALL SELECT UUID(), 'WH01', 'C01', '油品类', 'SKU009', '液压油46#', 'B20260320', CONCAT('SN', REPLACE(UUID(),'-','')),
+--                    200, '升', 0, NULL, 0, 'LOCKED', 'EXPIRED', 'DAMAGED',
+--                    'DRUM', '昆仑润滑', 'OWNER01', '自营', 15
+-- ) t
+-- WHERE NOT EXISTS (SELECT 1 FROM wms_storage_material WHERE house_code = 'WH01' AND sku_code = 'SKU001' AND is_active = 1)
+-- LIMIT 16;
+--
+-- -- ============================================================
+-- -- 2. wms_asn — 入库单 5 条
+-- -- ============================================================
+-- INSERT INTO wms_asn(id, house_code, form_no, form_type, asn_status, business_form_no,
+--                     supplier_code, supplier_name, owner_code, owner_name,
+--                     is_active, create_datetime, last_modify_datetime, create_by)
+-- SELECT id, house_code, form_no, form_type, asn_status, business_form_no,
+--        supplier_code, supplier_name, owner_code, owner_name,
+--        1, create_datetime, create_datetime, 'system'
+-- FROM (
+--   SELECT UUID() as id, 'WH01' as house_code, 'ASN20260401001' as form_no, 'PURCHASE' as form_type,
+--          'Finished' as asn_status, 'PO20260328001' as business_form_no,
+--          'SUP001' as supplier_code, '华强紧固件' as supplier_name, 'OWNER01' as owner_code, '自营' as owner_name,
+--          NOW() - INTERVAL 1 DAY as create_datetime
+--   UNION ALL SELECT UUID(), 'WH01', 'ASN20260401002', 'PURCHASE', 'Finished', 'PO20260328002',
+--                    'SUP002', '洛阳轴承厂', 'OWNER01', '自营', NOW() - INTERVAL 2 DAY
+--   UNION ALL SELECT UUID(), 'WH01', 'ASN20260401003', 'PURCHASE', 'Receiving', 'PO20260401001',
+--                    'SUP003', '密封科技', 'OWNER01', '自营', NOW() - INTERVAL 3 DAY
+--   UNION ALL SELECT UUID(), 'WH02', 'ASN20260402001', 'PURCHASE', 'Finished', 'PO20260330001',
+--                    'SUP004', '亚德客气动', 'OWNER02', '代销', NOW() - INTERVAL 4 DAY
+--   UNION ALL SELECT UUID(), 'WH02', 'ASN20260402002', 'PURCHASE', 'Created', 'PO20260402001',
+--                    'SUP005', '欧姆龙电子', 'OWNER01', '自营', NOW() - INTERVAL 5 DAY
+-- ) t
+-- WHERE NOT EXISTS (SELECT 1 FROM wms_asn WHERE form_no = 'ASN20260401001')
+-- LIMIT 6;
+--
+-- -- ============================================================
+-- -- 3. wms_asn_item — 入库明细 10 条
+-- -- ============================================================
+-- INSERT INTO wms_asn_item(id, asn_id, asn_no, item_no, sku_code, sku_name, batch_no,
+--                          primary_qty, primary_unit, confirm_qty,
+--                          category_code, category_name, quality_flag,
+--                          is_active, create_datetime, last_modify_datetime)
+-- SELECT UUID(), a.id, a.form_no, t.item_no, t.sku_code, t.sku_name, t.batch_no,
+--        t.primary_qty, t.primary_unit, t.confirm_qty,
+--        t.category_code, t.category_name, 1,
+--        1, a.create_datetime, a.create_datetime
+-- FROM wms_asn a
+-- JOIN (
+--   SELECT 'ASN20260401001' as form_no, 1 as item_no, 'SKU001' as sku_code, '螺栓M8×30' as sku_name, 'B20260401' as batch_no, 2000 as primary_qty, '个' as primary_unit, 2000 as confirm_qty, 'A01' as category_code, '标准件' as category_name
+--   UNION ALL SELECT 'ASN20260401001', 2, 'SKU002', '螺母M8', 'B20260401', 3000, '个', 3000, 'A01', '标准件'
+--   UNION ALL SELECT 'ASN20260401002', 1, 'SKU003', '深沟球轴承6205', 'B20260315', 500, '套', 500, 'A02', '传动件'
+--   UNION ALL SELECT 'ASN20260401002', 2, 'SKU004', '直线导轨SBR20', 'B20260320', 100, '根', 80, 'A02', '传动件'
+--   UNION ALL SELECT 'ASN20260401003', 1, 'SKU005', 'O型密封圈Φ50', 'B20260405', 5000, '个', 0, 'A03', '密封件'
+--   UNION ALL SELECT 'ASN20260401003', 2, 'SKU005', 'O型密封圈Φ50', 'B20260301', 3000, '个', 0, 'A03', '密封件'
+--   UNION ALL SELECT 'ASN20260402001', 1, 'SKU006', '气缸SC63×200', 'B20260325', 100, '个', 100, 'B01', '气动件'
+--   UNION ALL SELECT 'ASN20260402001', 2, 'SKU007', '电磁阀4V210', 'B20260328', 300, '个', 300, 'B01', '气动件'
+--   UNION ALL SELECT 'ASN20260402002', 1, 'SKU008', '光电传感器E3Z', 'B20260402', 500, '个', 0, 'B02', '传感件'
+--   UNION ALL SELECT 'ASN20260402002', 2, 'SKU009', '液压油46#', 'B20260401', 200, '升', 0, 'C01', '油品类'
+-- ) t ON a.form_no = t.form_no
+-- WHERE NOT EXISTS (SELECT 1 FROM wms_asn_item WHERE asn_no = 'ASN20260401001' AND item_no = 1)
+-- LIMIT 11;
+--
+-- -- ============================================================
+-- -- 4. wms_pick_item — 拣货明细 18 条（3 个工作站 × 多 SKU）
+-- -- ============================================================
+-- INSERT INTO wms_pick_item(id, pick_station, sku_code, sku_name, batch_no, primary_qty, primary_unit,
+--                           pick_status, operator, container_code,
+--                           is_active, create_datetime, last_modify_datetime)
+-- SELECT id, pick_station, sku_code, sku_name, batch_no, primary_qty, primary_unit,
+--        pick_status, operator, container_code,
+--        1, create_datetime, create_datetime
+-- FROM (
+--   SELECT UUID() as id, '拣货站-A' as pick_station, 'SKU001' as sku_code, '螺栓M8×30' as sku_name,
+--          'B20260401' as batch_no, 500 as primary_qty, '个' as primary_unit,
+--          'done' as pick_status, '张三' as operator, 'TRAY001' as container_code,
+--          NOW() - INTERVAL 1 HOUR as create_datetime
+--   UNION ALL SELECT UUID(), '拣货站-A', 'SKU002', '螺母M8', 'B20260401', 800, '个', 'done', '张三', 'TRAY001', NOW() - INTERVAL 1 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-A', 'SKU003', '深沟球轴承6205', 'B20260315', 200, '套', 'done', '张三', 'TRAY002', NOW() - INTERVAL 2 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-A', 'SKU005', 'O型密封圈Φ50', 'B20260405', 1500, '个', 'done', '李四', 'TRAY003', NOW() - INTERVAL 2 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-A', 'SKU009', '液压油46#', 'B20260401', 500, '升', 'picking', '李四', 'TRAY004', NOW() - INTERVAL 3 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-A', 'SKU001', '螺栓M8×30', 'B20260410', 300, '个', 'done', '张三', 'TRAY005', NOW() - INTERVAL 3 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-B', 'SKU006', '气缸SC63×200', 'B20260325', 50, '个', 'done', '王五', 'TRAY006', NOW() - INTERVAL 4 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-B', 'SKU007', '电磁阀4V210', 'B20260328', 150, '个', 'done', '王五', 'TRAY006', NOW() - INTERVAL 4 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-B', 'SKU001', '螺栓M8×30', 'B20260401', 400, '个', 'done', '王五', 'TRAY007', NOW() - INTERVAL 5 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-B', 'SKU008', '光电传感器E3Z', 'B20260402', 120, '个', 'done', '赵六', 'TRAY008', NOW() - INTERVAL 5 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-B', 'SKU010', '导轨润滑油', 'B20260401', 200, '升', 'picking', '赵六', 'TRAY009', NOW() - INTERVAL 6 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-B', 'SKU002', '螺母M8', 'B20260405', 600, '个', 'created', '王五', 'TRAY010', NOW() - INTERVAL 6 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-C', 'SKU003', '深沟球轴承6205', 'B20260301', 100, '套', 'done', '张三', 'TRAY011', NOW() - INTERVAL 7 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-C', 'SKU004', '直线导轨SBR20', 'B20260320', 50, '根', 'done', '李四', 'TRAY012', NOW() - INTERVAL 7 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-C', 'SKU009', '液压油46#', 'B20260320', 100, '升', 'done', '李四', 'TRAY013', NOW() - INTERVAL 8 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-C', 'SKU005', 'O型密封圈Φ50', 'B20260301', 800, '个', 'done', '张三', 'TRAY014', NOW() - INTERVAL 8 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-C', 'SKU008', '光电传感器E3Z', 'B20260310', 80, '个', 'done', '赵六', 'TRAY015', NOW() - INTERVAL 9 HOUR
+--   UNION ALL SELECT UUID(), '拣货站-C', 'SKU001', '螺栓M8×30', 'B20260401', 250, '个', 'created', '张三', 'TRAY016', NOW() - INTERVAL 9 HOUR
+-- ) t
+-- WHERE NOT EXISTS (SELECT 1 FROM wms_pick_item WHERE container_code = 'TRAY001')
+-- LIMIT 19;

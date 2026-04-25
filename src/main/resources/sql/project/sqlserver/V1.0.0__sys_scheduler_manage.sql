@@ -1,0 +1,4 @@
+-- INSERT INTO `sys_scheduler_manage` VALUES ('660d940a-4c2e-4804-ad73-6190a3e5e927', 1, '2025-01-15 09:14:32.000', 'system', '2025-12-01 14:46:55.000', 'system', 'job2', 'trigger2', 'AutoOutboundScheduler', '0/10 * * * * ? *', NULL, 1, 0, 0, '自动生成下架任务', 0);
+-- INSERT INTO `sys_scheduler_manage` VALUES ('84113e0a-1023-4825-b1dd-dbc7a9d1d8bf', 1, '2025-12-01 14:46:48.000', 'system', '2025-12-01 14:47:01.000', 'system', 'job3', 'trigger3', 'DispatchScheduler', '0/10 * * * * ? *', NULL, 0, 0, 0, '任务调度', 0);
+-- INSERT INTO `sys_scheduler_manage` VALUES ('ad2244c3-6571-4067-909f-2c5c474248f9', 1, '2025-12-01 14:47:15.000', 'system', '2025-12-01 14:47:15.000', 'system', 'job4', 'trigger4', 'StackDownScheduler', '0/10 * * * * ? *', NULL, 0, 0, 0, '出库任务调度', 0);
+--

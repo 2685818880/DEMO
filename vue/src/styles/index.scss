@@ -1,0 +1,57 @@
+@import "./global.scss";
+
+.g-main {
+  margin-top: 10px;
+}
+
+.el-pagination {
+  width: 100%;
+}
+
+.g-pagination {
+  &.left {
+    text-align: left;
+  }
+  &.right {
+    text-align: right;
+  }
+  &.center {
+    text-align: center;
+  }
+}
+
+.fn-enable {
+  color: #009933;
+}
+
+.fn-disable {
+  color: #ff3333;
+}
+
+.m-operator-popper {
+  min-width: 80px;
+  .el-button {
+    display: block;
+    margin-top: 5px;
+  }
+  .el-button + .el-button {
+    margin-left: 0;
+  }
+}
+
+// dialog 加上border
+.el-dialog__header {
+  border-bottom: 1px solid #dcdfe6;
+}
+.el-dialog__footer {
+  border-top: 1px solid #f5ebeb;
+  padding: 10px 20px 10px !important;
+}
+
+svg .text-highlight {
+  font-weight: bold;
+}
+
+.el-button:hover a {
+  color: #fff!important;
+}

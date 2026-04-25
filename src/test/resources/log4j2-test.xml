@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off">
+	<properties>
+		<property name="LOG_HOME">/Users/liuyk/Eros/Project/log</property>
+		<property name="SERVER_NAME">server</property>
+		<property name="PRO">pro</property>
+	</properties>
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<!-- 
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss} %-5level %variablesNotEmpty{%X{userId}:%X{userAccount}:%X{userName}:%X{userHost} }[%thread] - %msg%ex - logger:%logger - location: %location%n" />
+			 -->
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss} %-5level - %msg%ex - %variablesNotEmpty{%X{userAccount}} logger:%logger%n" />
+				
+				
+		</Console>
+		<File name="file" fileName="${LOG_HOME}/${SERVER_NAME}/${PRO}_file.log" append="false">
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss} %5level %variablesNotEmpty{%X{userId}:%X{userAccount}:%X{userName}:%X{userHost} }[%thread] - %msg%ex - logger:%logger - location: %location%n" />
+		</File>
+		<RollingFile name="rolling" fileName="${LOG_HOME}/${SERVER_NAME}/${PRO}_rollingfile.log" filePattern="${LOG_HOME}/${SERVER_NAME}/%d{yyyy-MM}/${PRO}-%d{yyyy-MM-dd}-%i.log">
+			<!-- 
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss} %5level %variablesNotEmpty{%X{userId}:%X{userAccount}:%X{userName}:%X{userHost} }[%thread] - %msg%ex - logger:%logger - location: %location%n" />
+			 -->
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss} %-5level - %msg%ex - %variablesNotEmpty{%X{userAccount}} logger:%logger%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="50MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="9" />
+		</RollingFile>
+		<Async name="fileSyn">
+			<appender-ref ref="file" />
+			<includeLocation>true</includeLocation>
+		</Async>
+		<Async name="rollingSyn">
+			<appender-ref ref="rolling" />
+			<includeLocation>true</includeLocation>
+		</Async>
+	</Appenders>
+	<Loggers>
+	
+		<!-- 
+		<Logger name="com.foeris.y.frame.resolver.MappingExceptionResolver" level="all" additivity="true" />
+		<Logger name="com.wxzd.demo.frame.vue.DemoVueController" level="all" additivity="true" />
+		<Logger name="com.foeris.y.frame.spring.mvc.MultiResourceDispatcherServlet" level="all" additivity="true" />
+		<Logger name="com.foeris.y.frame.filter.FirstFilter" level="all" additivity="true" />
+		<Logger name="com.foeris.y.frame.filter.interceptor.FirstInterceptor" level="all" additivity="true" />
+		<Logger name="com.foeris.y.frame.filter.interceptor.EndInterceptor" level="all" additivity="true" />
+		 -->
+		 
+		<!-- 
+		<Logger name="com.wxzd.udw.service.impl.UnifiedDataAppServiceImpl" level="all" additivity="false" >
+			<AppenderRef ref="console" />
+		</Logger>
+		
+		<Logger name="com.foeris.y.common.jdbc.JdbcLog" level="all" additivity="true" />
+		 -->
+		
+		<Logger name="com.foeris.y.frame.listener.initial.InitListener" level="info" additivity="true" />
+		
+		<Logger name="com.foeris.y.frame.handler.YsRequestMappingHandlerMapping" level="info" additivity="true" />
+		
+		<Logger name="com.foeris.y.frame.resolver.MappingExceptionResolver" level="all" additivity="true" />
+		
+		<Logger name="org.apache.catalina.startup.Catalina" level="info" additivity="true" />
+		
+		
+		<Logger name="cn.zdjc.warehouse" level="debug" additivity="true" />
+
+		<Logger name="cn.zdjc.wms.definition.application.controller" level="info" additivity="true" />
+
+
+		
+		<Root level="warn">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingSyn" />
+		</Root>
+
+	</Loggers>
+</Configuration>

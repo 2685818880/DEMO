@@ -1,0 +1,1 @@
+CREATE INDEX idx_sm_business_form_no ON wms_storage_material(business_form_no);
